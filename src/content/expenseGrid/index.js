@@ -1,6 +1,5 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
+// import * as React from "react";
+import { useEffect, useState } from "react";
 import { app } from "../../firebase";
 import {
   getFirestore,
@@ -9,21 +8,11 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import Box from "@mui/material/Box";
+import { DataGrid } from "@mui/x-data-grid";
 
 const db = getFirestore(app);
 
-const q = query(
-  collection(db, "expenses_categories"),
-  where("active", "==", true)
-);
-
-const getDataFromFirestore = async () => {
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-  });
-};
 const columns = [
   { field: "id", headerName: "ID", width: 90 },
   {
@@ -69,7 +58,31 @@ const rows = [
 ];
 
 export const GridExpenses = () => {
-  getDataFromFirestore();
+  const [categories, getCategories] = useState([]);
+
+  const getCategoriesQuery = query(
+    collection(db, "expenses_categories"),
+    where("active", "==", true)
+  );
+
+  const getCategoriesFromFirestore = async () => {
+    const querySnapshot = await getDocs(getCategoriesQuery);
+    const categoriesFromFirestore = [];
+    querySnapshot.forEach((doc) => {
+      categoriesFromFirestore.push({
+        id: doc.id,
+        category: doc.data().category,
+      });
+      // console.log(doc.id, " => ", doc.data());
+    });
+    // console.log(categoriesFromFirestore);
+    getCategories(categoriesFromFirestore);
+  };
+
+  useEffect(() => {
+    getCategoriesFromFirestore();
+  }, []);
+
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
