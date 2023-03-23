@@ -1,7 +1,29 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+import { app } from "../../firebase";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
+const db = getFirestore(app);
+
+const q = query(
+  collection(db, "expenses_categories"),
+  where("active", "==", true)
+);
+
+const getDataFromFirestore = async () => {
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+  });
+};
 const columns = [
   { field: "id", headerName: "ID", width: 90 },
   {
@@ -47,6 +69,7 @@ const rows = [
 ];
 
 export const GridExpenses = () => {
+  getDataFromFirestore();
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
