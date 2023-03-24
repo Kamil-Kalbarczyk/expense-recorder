@@ -1,3 +1,8 @@
+import { app } from "../../firebase";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/auth/AuthContext";
+
 // import { useContext } from "react";
 // import { LanguageContext } from "../contexts/language/LanguageContext";
 import * as React from "react";
@@ -18,9 +23,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export const SignIn = ({ setLoginMethod }) => {
-  // const context = useContext(LanguageContext);
-  // console.log(context);
-
+  const isAuthorization = useContext(AuthContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -28,6 +31,25 @@ export const SignIn = ({ setLoginMethod }) => {
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    const email = data.get("email");
+    const password = data.get("password");
+
+    const auth = getAuth();
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        isAuthorization.setAuthorization(user);
+
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   return (
