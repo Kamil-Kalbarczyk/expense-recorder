@@ -5,10 +5,9 @@ import { AuthContext } from "../contexts/auth/AuthContext";
 
 export const Content = () => {
   const isAuthorization = useContext(AuthContext);
-  console.log(isAuthorization);
   if (isAuthorization.authorization) {
-    return <div>Hello World!</div>;
+    return <GridExpenses />;
   } else {
-    return <div>Goodbye!!</div>;
+    return <Login />;
   }
 };
