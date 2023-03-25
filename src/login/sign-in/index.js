@@ -1,6 +1,6 @@
 import { app } from "../../firebase";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/auth/AuthContext";
 
 // import { useContext } from "react";
@@ -23,6 +23,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export const SignIn = ({ setLoginMethod }) => {
+  const [signInError, setSignInError] = useState(null);
+
   const isAuthorization = useContext(AuthContext);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -41,7 +43,7 @@ export const SignIn = ({ setLoginMethod }) => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
+        // console.log(user);
         isAuthorization.setAuthorization(user);
 
         // ...
@@ -49,6 +51,20 @@ export const SignIn = ({ setLoginMethod }) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+
+        switch (errorCode) {
+          case "auth/invalid-email":
+            setSignInError("Invalid email.");
+            break;
+          case "auth/wrong-password":
+            setSignInError("Wrong password.");
+            break;
+          case "auth/user-not-found":
+            setSignInError("User not found.");
+            break;
+          default:
+            setSignInError(errorCode);
+        }
       });
   };
 
@@ -100,6 +116,16 @@ export const SignIn = ({ setLoginMethod }) => {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
+            <Typography
+              sx={{
+                color: "red",
+                transition: "0.3s",
+                transform: signInError ? "scale(1)" : "scale(0)",
+              }}
+              variant="subtitle2"
+            >
+              {signInError}
+            </Typography>
             <Button
               type="submit"
               fullWidth
