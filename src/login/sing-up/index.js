@@ -27,31 +27,29 @@ export const SignUp = ({ setLoginMethod }) => {
   // console.log(context);
 
   const isAuthorization = useContext(AuthContext);
+  const auth = getAuth();
+
   const [loginError, setLoginError] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    const auth = getAuth();
+
     const email = data.get("email");
     const password = data.get("password");
 
+    // Create account and Signed in
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
         console.log("Zarejestrowano konto => ", user);
-        isAuthorization.setAuthorization(user);
-        // ...
+        isAuthorization.setAuthorization(auth.currentUser);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
 
+        // Error messages
         switch (errorCode) {
           case "auth/invalid-email":
             setLoginError("Invalid email.");

@@ -1,11 +1,14 @@
 import { app } from "../../firebase";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useContext, useState } from "react";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../contexts/auth/AuthContext";
 
-// import { useContext } from "react";
 // import { LanguageContext } from "../contexts/language/LanguageContext";
-// import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -23,35 +26,34 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export const SignIn = ({ setLoginMethod }) => {
+  const isAuthorization = useContext(AuthContext);
+  const auth = getAuth();
+
+  // keeping user login during session
+  setPersistence(auth, browserSessionPersistence).then(() => {
+    isAuthorization.setAuthorization(auth.currentUser);
+  });
+
   const [loginError, setLoginError] = useState(null);
 
-  const isAuthorization = useContext(AuthContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
 
     const email = data.get("email");
     const password = data.get("password");
 
-    const auth = getAuth();
-
+    // Signed in
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
-        // console.log(user);
-        isAuthorization.setAuthorization(user);
-
-        // ...
+        isAuthorization.setAuthorization(auth.currentUser);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
 
+        // Error messages
         switch (errorCode) {
           case "auth/invalid-email":
             setLoginError("Invalid email.");
