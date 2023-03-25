@@ -5,7 +5,7 @@ import { AuthContext } from "../../contexts/auth/AuthContext";
 
 // import { useContext } from "react";
 // import { LanguageContext } from "../contexts/language/LanguageContext";
-import * as React from "react";
+// import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -23,7 +23,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export const SignIn = ({ setLoginMethod }) => {
-  const [signInError, setSignInError] = useState(null);
+  const [loginError, setLoginError] = useState(null);
 
   const isAuthorization = useContext(AuthContext);
   const handleSubmit = (event) => {
@@ -54,16 +54,18 @@ export const SignIn = ({ setLoginMethod }) => {
 
         switch (errorCode) {
           case "auth/invalid-email":
-            setSignInError("Invalid email.");
+            setLoginError("Invalid email.");
             break;
           case "auth/wrong-password":
-            setSignInError("Wrong password.");
+            setLoginError("Wrong password.");
             break;
           case "auth/user-not-found":
-            setSignInError("User not found.");
+            setLoginError("User not found.");
             break;
           default:
-            setSignInError(errorCode);
+            password.length > 0
+              ? setLoginError(errorMessage)
+              : setLoginError("Provide password.");
         }
       });
   };
@@ -120,11 +122,11 @@ export const SignIn = ({ setLoginMethod }) => {
               sx={{
                 color: "red",
                 transition: "0.3s",
-                transform: signInError ? "scale(1)" : "scale(0)",
+                transform: loginError ? "scale(1)" : "scale(0)",
               }}
               variant="subtitle2"
             >
-              {signInError}
+              {loginError}
             </Typography>
             <Button
               type="submit"

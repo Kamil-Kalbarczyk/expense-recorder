@@ -1,6 +1,11 @@
 // import { useContext } from "react";
 // import { LanguageContext } from "../contexts/language/LanguageContext";
-import * as React from "react";
+import { app } from "../../firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../contexts/auth/AuthContext";
+
+// import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -21,6 +26,9 @@ export const SignUp = ({ setLoginMethod }) => {
   // const context = useContext(LanguageContext);
   // console.log(context);
 
+  const isAuthorization = useContext(AuthContext);
+  const [loginError, setLoginError] = useState(null);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -28,6 +36,36 @@ export const SignUp = ({ setLoginMethod }) => {
       email: data.get("email"),
       password: data.get("password"),
     });
+    const auth = getAuth();
+    const email = data.get("email");
+    const password = data.get("password");
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("Zarejestrowano konto => ", user);
+        isAuthorization.setAuthorization(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        switch (errorCode) {
+          case "auth/invalid-email":
+            setLoginError("Invalid email.");
+            break;
+          case "auth/weak-password":
+            setLoginError("Password should be at least 6 characters.");
+            break;
+          default:
+            password.length > 0
+              ? setLoginError(errorMessage)
+              : setLoginError("Provide password.");
+        }
+        // ..
+      });
   };
 
   return (
@@ -78,6 +116,16 @@ export const SignUp = ({ setLoginMethod }) => {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
+            <Typography
+              sx={{
+                color: "red",
+                transition: "0.3s",
+                transform: loginError ? "scale(1)" : "scale(0)",
+              }}
+              variant="subtitle2"
+            >
+              {loginError}
+            </Typography>
             <Button
               type="submit"
               fullWidth
