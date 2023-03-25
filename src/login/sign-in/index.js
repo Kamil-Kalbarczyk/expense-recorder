@@ -35,13 +35,24 @@ export const SignIn = ({ setLoginMethod }) => {
   });
 
   const [loginError, setLoginError] = useState(null);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = formData;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const email = data.get("email");
-    const password = data.get("password");
+    // const email = data.get("email");
+    // const password = data.get("password");
+
+    setFormData({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
 
     // Signed in
     signInWithEmailAndPassword(auth, email, password)
