@@ -30,13 +30,15 @@ export const SignUp = ({ setLoginMethod }) => {
   const auth = getAuth();
 
   const [loginError, setLoginError] = useState(null);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = formData;
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    const email = data.get("email");
-    const password = data.get("password");
 
     // Create account and Signed in
     createUserWithEmailAndPassword(auth, email, password)
@@ -57,6 +59,9 @@ export const SignUp = ({ setLoginMethod }) => {
           case "auth/weak-password":
             setLoginError("Password should be at least 6 characters.");
             break;
+          case "auth/email-already-in-use":
+            setLoginError("Email address already exists.");
+            break;
           default:
             password.length > 0
               ? setLoginError(errorMessage)
@@ -64,6 +69,13 @@ export const SignUp = ({ setLoginMethod }) => {
         }
         // ..
       });
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -99,6 +111,8 @@ export const SignUp = ({ setLoginMethod }) => {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
+              value={email}
             />
             <TextField
               margin="normal"
@@ -109,6 +123,8 @@ export const SignUp = ({ setLoginMethod }) => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange}
+              value={password}
             />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

@@ -44,7 +44,6 @@ export const SignIn = ({ setLoginMethod }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
 
     // Signed in
     signInWithEmailAndPassword(auth, email, password)
@@ -116,6 +115,7 @@ export const SignIn = ({ setLoginMethod }) => {
               autoComplete="email"
               autoFocus
               onChange={handleChange}
+              value={email}
             />
             <TextField
               margin="normal"
@@ -127,6 +127,7 @@ export const SignIn = ({ setLoginMethod }) => {
               id="password"
               autoComplete="current-password"
               onChange={handleChange}
+              value={password}
             />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
