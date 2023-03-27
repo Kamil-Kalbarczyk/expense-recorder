@@ -46,14 +46,6 @@ export const SignIn = ({ setLoginMethod }) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    // const email = data.get("email");
-    // const password = data.get("password");
-
-    setFormData({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-
     // Signed in
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -81,6 +73,13 @@ export const SignIn = ({ setLoginMethod }) => {
               : setLoginError("Provide password.");
         }
       });
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -116,6 +115,7 @@ export const SignIn = ({ setLoginMethod }) => {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
@@ -126,6 +126,7 @@ export const SignIn = ({ setLoginMethod }) => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange}
             />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
