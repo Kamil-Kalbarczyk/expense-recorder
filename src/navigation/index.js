@@ -1,5 +1,9 @@
 import { useState } from "react";
-import * as React from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -9,26 +13,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 
 export const Navigation = () => {
-  const [state, setState] = useState({
-    // top: false,
-    left: false,
-    // bottom: false,
-    // right: false,
-  });
+  const [navigationState, setNavigationState] = useState(false);
 
   const toggleDrawer = (anchor, open) => (event) => {
-    // if (
-    //   event.type === "keydown" &&
-    //   (event.key === "Tab" || event.key === "Shift")
-    // ) {
-    //   return;
-    // }
-
-    setState({ ...state, [anchor]: open });
+    setNavigationState(open);
   };
 
   const list = (anchor) => (
@@ -38,12 +28,19 @@ export const Navigation = () => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      <Typography
+        variant="body1"
+        align="center"
+        sx={{ fontWeight: "bold", pt: "10px" }}
+      >
+        Recorded expenses:
+      </Typography>
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <AttachMoneyIcon />
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -56,7 +53,7 @@ export const Navigation = () => {
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <SettingsIcon /> : <LogoutIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -68,20 +65,20 @@ export const Navigation = () => {
 
   return (
     <div>
-      {/* {["left", "right", "top", "bottom"].map((anchor) => ( */}
-      {/* <React.Fragment key={anchor}> */}
-      <>
-        <Button onClick={toggleDrawer("left", true)}>menu</Button>
-        <Drawer
-          anchor={"left"}
-          open={state.left}
-          onClose={toggleDrawer("left", false)}
-        >
-          {list("left")}
-        </Drawer>
-      </>
-      {/* </React.Fragment> */}
-      {/* ))} */}
+      <Button
+        sx={{ fontWeight: "bold" }}
+        variant="outlined"
+        onClick={toggleDrawer("left", true)}
+      >
+        <MenuIcon />
+      </Button>
+      <Drawer
+        anchor={"left"}
+        open={navigationState}
+        onClose={toggleDrawer("left", false)}
+      >
+        {list("left")}
+      </Drawer>
     </div>
   );
 };
