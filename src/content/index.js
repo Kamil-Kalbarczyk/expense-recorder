@@ -1,3 +1,4 @@
+import { Navigation } from "../navigation";
 import { GridExpenses } from "./expenseGrid";
 import { Login } from "../login";
 import { CheckProjectExists } from "../common/checkProjectExists";
@@ -9,6 +10,7 @@ export const Content = () => {
   if (isAuthorization.authorization) {
     return (
       <>
+        <Navigation />
         <CheckProjectExists />
         <GridExpenses />
       </>
