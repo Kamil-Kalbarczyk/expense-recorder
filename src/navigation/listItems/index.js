@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { ProjectsContext } from "../../contexts/projects/ProjectsContext";
+import { Link, NavLink } from "react-router-dom";
 
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -15,6 +16,11 @@ import Box from "@mui/material/Box";
 
 export const ListItems = ({ anchor, toggleDrawer }) => {
   const projects = useContext(ProjectsContext).projects;
+
+  // const activeLinkStyle = {
+  //   textDecoration: "underline",
+  //   fontWeight: "bold",
+  // };
 
   return (
     <Box
@@ -33,7 +39,13 @@ export const ListItems = ({ anchor, toggleDrawer }) => {
       <List>
         {projects.map((project, index) => (
           <ListItem key={project.project_id} disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              component={NavLink}
+              to={`/grid/${project.project_id}`}
+              // sx={({ isActive }) =>
+              //   isActive ? { color: "#eef" } : undefined
+              // }
+            >
               <ListItemIcon>
                 <AttachMoneyIcon />
               </ListItemIcon>
