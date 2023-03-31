@@ -1,5 +1,5 @@
 import { Navigation } from "../navigation";
-import { GridExpenses } from "./expenseGrid";
+import { Main } from "./main";
 import { Login } from "../login";
 import { ProjectsContextProvider } from "../contexts/projects/ProjectsContext";
 import { useContext } from "react";
@@ -13,7 +13,7 @@ export const Content = () => {
     return (
       <ProjectsContextProvider>
         <Navigation />
-        <GridExpenses />
+        <Main />
       </ProjectsContextProvider>
     );
   } else {
