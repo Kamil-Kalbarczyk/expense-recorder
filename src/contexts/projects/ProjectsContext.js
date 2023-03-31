@@ -9,6 +9,7 @@ import {
   where,
   getDocs,
   orderBy,
+  limit,
 } from "firebase/firestore";
 
 const db = getFirestore(app);
@@ -27,7 +28,7 @@ export const ProjectsContextProvider = ({ children }) => {
     const q = query(
       collection(db, "projects"),
       where("userID", "==", userID),
-      orderBy("create_date")
+      orderBy("create_date", "desc", limit(12))
     );
 
     const querySnapshot = await getDocs(q);
