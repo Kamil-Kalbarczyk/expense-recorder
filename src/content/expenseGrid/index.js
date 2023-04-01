@@ -23,7 +23,7 @@ export const GridExpenses = () => {
 
   // =============== Fetching data start ===============
   const getDataGridQuery = query(
-    collection(db, "expenses"),
+    collection(db, "expenses_rows"),
     where("project_id", "==", projectID),
     orderBy("create_date", "asc")
   );
@@ -54,11 +54,19 @@ export const GridExpenses = () => {
 
   // Build grid
   // set fields (columns) for grid
-  const allCategories = dataGrid.map((data) => data.category);
-  const uniqueCatgories = [...new Set(allCategories)];
-  uniqueCatgories.unshift("id");
+  const allCategories = dataGrid.map((data) => Object.keys(data.expenses));
+  const categoriesTogether = ["id"];
+  allCategories.forEach((categoryArray) => {
+    categoryArray.forEach((singleCategory) => {
+      categoriesTogether.push(singleCategory);
+    });
+  });
+  const categories = [...new Set(categoriesTogether)];
+  // console.log(categories);
+  // const uniqueCatgories = [...new Set(allCategories)];
+  // uniqueCatgories.unshift("id");
 
-  const columns = uniqueCatgories.map((column) => {
+  const columns = categories.map((column) => {
     if (column === "id") {
       return {
         field: column,
@@ -74,6 +82,7 @@ export const GridExpenses = () => {
       };
     }
   });
+
   /*
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -106,7 +115,8 @@ export const GridExpenses = () => {
     //     `${params.row.person || ""} ${params.row.lastName || ""}`,
     // },
   ];
-*/
+  */
+  /*
   const rows = dataGrid.map((row) => {
     return {
       id: row.id,
@@ -115,7 +125,8 @@ export const GridExpenses = () => {
   });
   // console.log(rowsX);
   // const rows = [];
-  /*
+  */
+
   const rows = [
     { id: 1, lastName: "Snow", person: "Jon", age: 35 },
     { id: 2, lastName: "Lannister", person: "Cersei", age: 42 },
@@ -127,7 +138,7 @@ export const GridExpenses = () => {
     { id: 8, lastName: "Frances", person: "Rossini", age: 36 },
     { id: 9, lastName: "Roxie", person: "Harvey", age: 65 },
   ];
-*/
+
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
