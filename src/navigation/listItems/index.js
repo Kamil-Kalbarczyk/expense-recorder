@@ -17,10 +17,9 @@ import Box from "@mui/material/Box";
 export const ListItems = ({ anchor, toggleDrawer }) => {
   const projects = useContext(ProjectsContext).projects;
 
-  // const activeLinkStyle = {
-  //   textDecoration: "underline",
-  //   fontWeight: "bold",
-  // };
+  const activeLinkStyle = {
+    backgroundColor: "#ddd",
+  };
 
   return (
     <Box
@@ -42,9 +41,7 @@ export const ListItems = ({ anchor, toggleDrawer }) => {
             <ListItemButton
               component={NavLink}
               to={`/grid/${project.project_id}`}
-              // sx={({ isActive }) =>
-              //   isActive ? { color: "#eef" } : undefined
-              // }
+              style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
             >
               <ListItemIcon>
                 <AttachMoneyIcon />
