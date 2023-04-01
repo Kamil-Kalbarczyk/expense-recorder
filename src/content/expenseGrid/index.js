@@ -18,6 +18,7 @@ const db = getFirestore(app);
 export const GridExpenses = () => {
   const { projectID } = useParams();
   const [dataGrid, setDataGrid] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // =============== Fetching data start ===============
   const getDataGridQuery = query(
@@ -39,6 +40,9 @@ export const GridExpenses = () => {
 
     // set data for grid
     setDataGrid(dataFromFirestore);
+
+    // loading progress turn off
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -63,6 +67,7 @@ export const GridExpenses = () => {
         field: column,
         headerName: column,
         width: 150,
+        hidden: true,
         // description: "This column has a value getter and is not sortable.",
       };
     } else {
@@ -92,6 +97,7 @@ export const GridExpenses = () => {
         checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
+        loading={loading}
       />
     </Box>
   );
