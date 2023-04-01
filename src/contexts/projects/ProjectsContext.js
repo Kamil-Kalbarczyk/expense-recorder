@@ -14,11 +14,11 @@ import {
 
 const db = getFirestore(app);
 
-export const ProjectsContext = createContext(null);
+export const ProjectsContext = createContext([]);
 
 export const ProjectsContextProvider = ({ children }) => {
   const isAuthorization = useContext(AuthContext);
-  const [projects, setProjects] = useState(null);
+  const [projects, setProjects] = useState([]);
   const userID = isAuthorization.authorization.uid;
 
   const convertTimestampToDate = (timestamp) =>
