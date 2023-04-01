@@ -11,6 +11,7 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
+import { convertTimestampToDate } from "../../common/functions";
 
 const db = getFirestore(app);
 
@@ -21,9 +22,6 @@ export const ProjectsContextProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const userID = isAuthorization.authorization.uid;
 
-  const convertTimestampToDate = (timestamp) =>
-    new Date(timestamp * 1000).toISOString().slice(0, 10).replace("T", " ");
-
   const getProject = async () => {
     const q = query(
       collection(db, "projects"),
@@ -33,15 +31,6 @@ export const ProjectsContextProvider = ({ children }) => {
 
     const querySnapshot = await getDocs(q);
     setProjects(
-      querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        project_id: doc.id,
-        period_from: convertTimestampToDate(doc.data()?.period_from?.seconds),
-        period_to: convertTimestampToDate(doc.data()?.period_to?.seconds),
-      }))
-    );
-
-    console.log(
       querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         project_id: doc.id,
