@@ -116,6 +116,13 @@ export const GridExpenses = () => {
     // },
   ];
   */
+  const rows = dataGrid.map((row) => {
+    return {
+      id: row.id,
+      ...row.expenses,
+    };
+  });
+  // console.log(rows);
   /*
   const rows = dataGrid.map((row) => {
     return {
@@ -126,7 +133,7 @@ export const GridExpenses = () => {
   // console.log(rowsX);
   // const rows = [];
   */
-
+  /*
   const rows = [
     { id: 1, lastName: "Snow", person: "Jon", age: 35 },
     { id: 2, lastName: "Lannister", person: "Cersei", age: 42 },
@@ -138,7 +145,7 @@ export const GridExpenses = () => {
     { id: 8, lastName: "Frances", person: "Rossini", age: 36 },
     { id: 9, lastName: "Roxie", person: "Harvey", age: 65 },
   ];
-
+*/
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
