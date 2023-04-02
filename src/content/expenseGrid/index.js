@@ -95,7 +95,7 @@ export const GridExpenses = () => {
       field: "id",
       headerName: "ID",
       width: 150,
-      hidden: true,
+      // hidden: true,
       // description: "This column has a value getter and is not sortable.",
     },
   ];
@@ -105,15 +105,27 @@ export const GridExpenses = () => {
       field: column.id,
       headerName: column.category,
       width: 150,
-      hidden: true,
+      editable: true,
     });
   });
 
-  const rows = dataGrid.map((row) => {
-    return {
-      id: row.id,
-      ...row.expenses,
-    };
+  // rows
+  const rowsForGrid = dataGrid.map((data) => {
+    const expenses = data.expenses.map((expense) => {
+      return {
+        [expense.category_id]: expense.value,
+      };
+    });
+    expenses.unshift({ id: data.id });
+    return expenses;
+  });
+
+  const rows = rowsForGrid.map((rows) => {
+    let singleRow = {};
+    rows.forEach((item) => {
+      singleRow = { ...singleRow, ...item };
+    });
+    return singleRow;
   });
 
   // =============== Building grid end ===============
