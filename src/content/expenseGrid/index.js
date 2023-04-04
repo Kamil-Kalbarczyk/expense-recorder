@@ -38,6 +38,7 @@ export const GridExpenses = () => {
     const querySnapshot = await getDocs(getColumnsGridQuery);
     const columnsFromFirestore = [];
     querySnapshot.forEach((doc) => {
+      console.log(doc.data());
       columnsFromFirestore.push({
         id: doc.id,
         ...doc.data(),
@@ -55,10 +56,9 @@ export const GridExpenses = () => {
 
   // rows
   const getRowsGridQuery = query(
-    collection(db, "expenses_rows"),
-    where("project_id", "==", projectID),
-    where("userID", "==", userID),
-    orderBy("create_date", "asc")
+    collection(db, `projects/${projectID}/expenses`),
+    where("userID", "==", userID)
+    // ,orderBy("create_date", "asc")
   );
 
   const getDataGridFromFirestore = async () => {
@@ -120,8 +120,6 @@ export const GridExpenses = () => {
     });
     return row;
   });
-
-  rows.push({ id: 3 });
 
   // =============== Building grid end ===============
   return (
