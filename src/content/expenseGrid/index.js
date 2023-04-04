@@ -38,7 +38,6 @@ export const GridExpenses = () => {
     const querySnapshot = await getDocs(getColumnsGridQuery);
     const columnsFromFirestore = [];
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
       columnsFromFirestore.push({
         id: doc.id,
         ...doc.data(),
@@ -120,6 +119,16 @@ export const GridExpenses = () => {
     });
     return row;
   });
+
+  // find highest row ID number
+  const allIDRows = dataGrid.map((data) => {
+    return Number(data.id);
+  });
+  const maxIDRowNumber = Math.max(...allIDRows);
+
+  // Add one more extra row for adding data by user
+  const firstFreeRowID = maxIDRowNumber + 1;
+  rows.push({ id: firstFreeRowID });
 
   // =============== Building grid end ===============
   return (
