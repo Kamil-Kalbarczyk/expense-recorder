@@ -110,23 +110,18 @@ export const GridExpenses = () => {
   });
 
   // rows
-  const rowsForGrid = dataGrid.map((data) => {
-    const expenses = data.expenses.map((expense) => {
-      return {
+  const rows = dataGrid.map((data) => {
+    let row = { id: data.id };
+    data.expenses.forEach((expense) => {
+      row = {
+        ...row,
         [expense.category_id]: expense.value,
       };
     });
-    expenses.unshift({ id: data.id });
-    return expenses;
+    return row;
   });
 
-  const rows = rowsForGrid.map((rows) => {
-    let singleRow = {};
-    rows.forEach((item) => {
-      singleRow = { ...singleRow, ...item };
-    });
-    return singleRow;
-  });
+  rows.push({ id: 3 });
 
   // =============== Building grid end ===============
   return (
