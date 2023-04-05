@@ -12,7 +12,13 @@ import {
 } from "firebase/firestore";
 import { convertTimestampToDate } from "../../common/functions";
 import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridCellParams,
+  GridCellEditStopReasons,
+} from "@mui/x-data-grid";
+
+import { rowUpdate } from "./gridFunctions";
 
 const db = getFirestore(app);
 
@@ -131,6 +137,7 @@ export const GridExpenses = () => {
   rows.push({ id: firstFreeRowID });
 
   // =============== Building grid end ===============
+
   return (
     <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
@@ -142,6 +149,16 @@ export const GridExpenses = () => {
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
         loading={loading}
+        processRowUpdate={(newRow, oldRow) => {
+          //Here manipulate the rows depending on what you want to do
+          // console.log(oldRow);
+          const cellUpdate = Object.entries(newRow)[1];
+          // console.log(cellUpdate);
+          rowUpdate(projectID, newRow.id, cellUpdate[0], cellUpdate[1], userID);
+        }}
+        onProcessRowUpdateError={(error) => {
+          console.log(error);
+        }}
       />
     </Box>
   );
