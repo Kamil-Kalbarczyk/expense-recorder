@@ -3,24 +3,20 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const db = getFirestore(app);
 
-export const rowUpdate = async (
-  projectID,
-  expenseID,
-  categoryID,
-  value,
-  userID
-) => {
-  const expenseIDString = expenseID.toString();
-  const categoryIDString = categoryID.toString();
-  const valueNumber = Number(value);
-  await setDoc(doc(db, `projects/${projectID}/expenses`, expenseIDString), {
-    expenses: [
-      {
-        category_id: categoryID,
-        value: valueNumber,
-        add_date: new Date(),
-      },
-    ],
+export const rowUpdate = async (projectID, newRow, userID) => {
+  const expenseID = newRow.id.toString();
+  const expenses = Object.entries(newRow)
+    .filter((data) => data[0] !== "id")
+    .map((row) => {
+      return {
+        category_id: row[0],
+        value: Number(row[1]),
+      };
+    });
+  console.log(expenseID);
+  console.log(expenses);
+  await setDoc(doc(db, `projects/${projectID}/expenses`, expenseID), {
+    expenses: expenses,
     userID: userID,
     create_date: new Date(),
   });

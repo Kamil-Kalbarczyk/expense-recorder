@@ -150,14 +150,13 @@ export const GridExpenses = () => {
         experimentalFeatures={{ newEditingApi: true }}
         loading={loading}
         processRowUpdate={(newRow, oldRow) => {
-          //Here manipulate the rows depending on what you want to do
-          // console.log(oldRow);
-          const cellUpdate = Object.entries(newRow)[1];
-          // console.log(cellUpdate);
-          rowUpdate(projectID, newRow.id, cellUpdate[0], cellUpdate[1], userID);
+          setLoading(true);
+          rowUpdate(projectID, newRow, userID);
+          setLoading(false);
         }}
         onProcessRowUpdateError={(error) => {
-          console.log(error);
+          // console.log(error);
+          fetchDataFromFirestore();
         }}
       />
     </Box>
