@@ -100,6 +100,8 @@ export const GridExpenses = () => {
       field: "id",
       headerName: "ID",
       width: 150,
+      // sortable: false,
+      type: "number",
       // hidden: true,
       // description: "This column has a value getter and is not sortable.",
     },
@@ -111,12 +113,14 @@ export const GridExpenses = () => {
       headerName: column.category,
       width: 150,
       editable: true,
+      // sortable: false,
+      type: "number",
     });
   });
 
   // rows
   const rows = dataGrid.map((data) => {
-    let row = { id: data.id };
+    let row = { id: Number(data.id) };
     data.expenses.forEach((expense) => {
       row = {
         ...row,
@@ -125,6 +129,13 @@ export const GridExpenses = () => {
     });
     return row;
   });
+
+  const sortRowsById = () => {
+    function compareNumbers(a, b) {
+      return a.id - b.id;
+    }
+    rows.sort(compareNumbers);
+  };
 
   const addOneExtarRow = () => {
     // find highest row ID number
@@ -140,6 +151,7 @@ export const GridExpenses = () => {
     rows.push({ id: firstFreeRowID });
   };
   addOneExtarRow();
+  sortRowsById();
   // =============== Building grid end ===============
 
   return (
@@ -156,7 +168,13 @@ export const GridExpenses = () => {
         processRowUpdate={(newRow, oldRow) => {
           setLoading(true);
           rowUpdate(projectID, newRow, userID);
-          getDataGridFromFirestore();
+
+          // if it last row - refresh data from data base
+          const lastRow = rows.slice(-1);
+          if (lastRow[0].id === newRow.id) {
+            getDataGridFromFirestore();
+          }
+
           setLoading(false);
         }}
         onProcessRowUpdateError={(error) => {
