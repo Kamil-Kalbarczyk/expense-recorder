@@ -165,6 +165,7 @@ export const GridExpenses = () => {
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
         loading={loading}
+        showCellVerticalBorder={true}
         processRowUpdate={(newRow, oldRow) => {
           setLoading(true);
           rowUpdate(projectID, newRow, userID);
