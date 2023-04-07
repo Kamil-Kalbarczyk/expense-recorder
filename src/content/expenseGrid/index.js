@@ -149,13 +149,14 @@ export const GridExpenses = () => {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        checkboxSelection
+        // checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
         loading={loading}
         processRowUpdate={(newRow, oldRow) => {
           setLoading(true);
           rowUpdate(projectID, newRow, userID);
+          getDataGridFromFirestore();
           setLoading(false);
         }}
         onProcessRowUpdateError={(error) => {
