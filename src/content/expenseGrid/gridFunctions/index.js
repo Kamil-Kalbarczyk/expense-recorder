@@ -13,8 +13,8 @@ export const rowUpdate = async (projectID, newRow, userID) => {
         value: Number(row[1]),
       };
     });
-  console.log(expenseID);
-  console.log(expenses);
+  // console.log(expenseID);
+  // console.log(expenses);
   await setDoc(doc(db, `projects/${projectID}/expenses`, expenseID), {
     expenses: expenses,
     userID: userID,
