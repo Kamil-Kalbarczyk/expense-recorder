@@ -169,13 +169,8 @@ export const GridExpenses = () => {
         processRowUpdate={(newRow, oldRow) => {
           setLoading(true);
           rowUpdate(projectID, newRow, userID);
-
-          // if it last row - refresh data from data base
-          const lastRow = rows.slice(-1);
-          if (lastRow[0].id === newRow.id) {
-            getDataGridFromFirestore();
-          }
-
+          // refresh data from database
+          getDataGridFromFirestore();
           setLoading(false);
         }}
         onProcessRowUpdateError={(error) => {
