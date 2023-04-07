@@ -126,19 +126,20 @@ export const GridExpenses = () => {
     return row;
   });
 
-  // find highest row ID number
-  let maxIDRowNumber = 0;
-  if (dataGrid.length > 1) {
-    const allIDRows = dataGrid.map((data) => {
-      return Number(data.id);
-    });
-    maxIDRowNumber = Math.max(...allIDRows);
-  }
-
-  // Add one more extra row for adding data by user
-  const firstFreeRowID = maxIDRowNumber + 1;
-  rows.push({ id: firstFreeRowID });
-
+  const addOneExtarRow = () => {
+    // find highest row ID number
+    let maxIDRowNumber = 0;
+    if (dataGrid.length > 1) {
+      const allIDRows = dataGrid.map((data) => {
+        return Number(data.id);
+      });
+      maxIDRowNumber = Math.max(...allIDRows);
+    }
+    // Add one more extra row for adding data by user
+    const firstFreeRowID = maxIDRowNumber + 1;
+    rows.push({ id: firstFreeRowID });
+  };
+  addOneExtarRow();
   // =============== Building grid end ===============
 
   return (
@@ -156,10 +157,6 @@ export const GridExpenses = () => {
           setLoading(true);
           rowUpdate(projectID, newRow, userID);
           setLoading(false);
-
-          // rows.forEach((item) => {
-          //   item.id = Math.random() * 1000;
-          // });
         }}
         onProcessRowUpdateError={(error) => {
           // console.log(error);
