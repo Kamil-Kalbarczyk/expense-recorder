@@ -140,7 +140,7 @@ export const GridExpenses = () => {
   const addOneExtarRow = () => {
     // find highest row ID number
     let maxIDRowNumber = 0;
-    if (dataGrid.length > 1) {
+    if (dataGrid.length > 0) {
       const allIDRows = dataGrid.map((data) => {
         return Number(data.id);
       });
