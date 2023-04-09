@@ -12,11 +12,7 @@ import {
 } from "firebase/firestore";
 import { convertTimestampToDate } from "../../common/functions";
 import Box from "@mui/material/Box";
-import {
-  DataGrid,
-  GridCellParams,
-  GridCellEditStopReasons,
-} from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 
 import { rowUpdate } from "./gridFunctions";
 
@@ -171,6 +167,12 @@ export const GridExpenses = () => {
           rowUpdate(projectID, newRow, userID);
           // refresh data from database
           getDataGridFromFirestore();
+
+          // if (newRow.id === rows.length) {
+          //   console.log("fetch data");
+          //   getDataGridFromFirestore();
+          // }
+
           setLoading(false);
         }}
         onProcessRowUpdateError={(error) => {
