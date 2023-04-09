@@ -153,6 +153,14 @@ export const GridExpenses = () => {
   return (
     <Box sx={{ height: "90vh", width: "100%" }}>
       <DataGrid
+        sx={{
+          "& .MuiDataGrid-cell": {
+            justifyContent: "right",
+          },
+          "& .MuiDataGrid-cell:hover": {
+            backgroundColor: "lightgrey",
+          },
+        }}
         rows={rows}
         columns={columns}
         pageSize={5}
@@ -173,6 +181,9 @@ export const GridExpenses = () => {
           //   getDataGridFromFirestore();
           // }
 
+          // removing editing css class
+          const cell = document.querySelector(".MuiDataGrid-cell--editing");
+          cell.classList.remove("MuiDataGrid-cell--editing");
           setLoading(false);
         }}
         onProcessRowUpdateError={(error) => {
