@@ -33,7 +33,7 @@ export const ListItems = ({ anchor, toggleDrawer }) => {
         align="center"
         sx={{ fontWeight: "bold", pt: "10px" }}
       >
-        Recorded expenses:
+        Expense recorders:
       </Typography>
       <List>
         {projects.map((project, index) => (
