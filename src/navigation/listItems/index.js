@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ProjectsContext } from "../../contexts/projects/ProjectsContext";
 import { Link, NavLink } from "react-router-dom";
 
@@ -16,6 +16,18 @@ import Box from "@mui/material/Box";
 
 export const ListItems = ({ anchor, toggleDrawer }) => {
   const projects = useContext(ProjectsContext).projects;
+  const [settingButtons, setSettingButtons] = useState([
+    {
+      text: "Create new recorder",
+      icon: "<SettingsIcon />",
+      link: "/",
+    },
+    {
+      text: "Log out",
+      icon: "<LogoutIcon />",
+      link: "/",
+    },
+  ]);
 
   const activeLinkStyle = {
     backgroundColor: "#ddd",
@@ -53,16 +65,31 @@ export const ListItems = ({ anchor, toggleDrawer }) => {
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <SettingsIcon /> : <LogoutIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton
+            component={NavLink}
+            to="/"
+            style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
+          >
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Create new recorder" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <ListItemButton
+          // component={NavLink}
+          // to="/"
+          // style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
+          >
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Log out" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
