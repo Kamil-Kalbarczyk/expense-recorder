@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../../contexts/auth/AuthContext";
-import { app } from "../../firebase";
+import { AuthContext } from "../../../contexts/auth/AuthContext";
+import { app } from "../../../firebase";
 import {
   getFirestore,
   collection,
@@ -10,7 +10,7 @@ import {
   getDocs,
   orderBy,
 } from "firebase/firestore";
-import { convertTimestampToDate } from "../../common/functions";
+import { convertTimestampToDate } from "../../../common/functions";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 

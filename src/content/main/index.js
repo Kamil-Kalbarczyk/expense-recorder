@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { GridExpenses } from "../expenseGrid";
+import { GridExpenses } from "./expenseGrid";
 import { NewProject } from "../../settings/newProject";
 
 export const Main = () => {
