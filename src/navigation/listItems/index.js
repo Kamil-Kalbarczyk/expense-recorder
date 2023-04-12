@@ -68,7 +68,7 @@ export const ListItems = ({ anchor, toggleDrawer }) => {
         <ListItem disablePadding>
           <ListItemButton
             component={NavLink}
-            to="/"
+            to="/new-recorder"
             style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
           >
             <ListItemIcon>
