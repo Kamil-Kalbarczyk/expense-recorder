@@ -1,3 +1,6 @@
+import { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../../../contexts/auth/AuthContext";
+import { fetchCategories } from "./fetchCategories";
 import { List } from "@mui/material";
 import { ListItem } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -8,6 +11,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 export const CategoriesList = () => {
+  const [categories, setCategories] = useState(null);
+  const isAuthorization = useContext(AuthContext);
+  const userID = isAuthorization.authorization.uid;
+  useEffect(() => {
+    fetchCategories(userID).then((data) => {
+      setCategories(data);
+    });
+  }, [userID]);
   return (
     <Box>
       <Typography
@@ -25,9 +36,9 @@ export const CategoriesList = () => {
           padding: 0,
         }}
       >
-        {[1, 2, 3].map((value) => (
+        {categories.map(({ id, active, category }) => (
           <ListItem
-            key={value}
+            key={id}
             disableGutters
             secondaryAction={
               <div>
@@ -48,7 +59,7 @@ export const CategoriesList = () => {
               </div>
             }
           >
-            <ListItemText primary={`Line item ${value}`} />
+            <ListItemText primary={category} />
           </ListItem>
         ))}
       </List>
