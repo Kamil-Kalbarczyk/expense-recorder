@@ -1,3 +1,4 @@
+import { CreateCategory } from "./createCategory";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../../contexts/auth/AuthContext";
 import { fetchCategories } from "./fetchCategories";
@@ -11,7 +12,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 export const CategoriesList = () => {
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState([]);
   const isAuthorization = useContext(AuthContext);
   const userID = isAuthorization.authorization.uid;
   useEffect(() => {
@@ -19,6 +20,7 @@ export const CategoriesList = () => {
       setCategories(data);
     });
   }, [userID]);
+
   return (
     <Box>
       <Typography
@@ -54,7 +56,8 @@ export const CategoriesList = () => {
                   onChange={(e) => {
                     console.log(e.target.checked);
                   }}
-                  defaultChecked
+                  // defaultChecked={active ? true : false}
+                  checked={active}
                 />
               </div>
             }
@@ -63,6 +66,7 @@ export const CategoriesList = () => {
           </ListItem>
         ))}
       </List>
+      <CreateCategory />
     </Box>
   );
 };
