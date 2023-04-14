@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CategoriesList } from "./categoriesList";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -9,6 +10,17 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export const NewRecorder = () => {
+  const [newRecorderName, setNewRecorderName] = useState("");
+
+  const handleNewRecorderNameChange = (e) => {
+    setNewRecorderName(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(newRecorderName);
+  };
+
   return (
     // <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
@@ -25,7 +37,7 @@ export const NewRecorder = () => {
         </Typography>
         <Box
           component="form"
-          // onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           noValidate
           sx={{ mt: 1, width: "90%" }}
         >
@@ -38,17 +50,11 @@ export const NewRecorder = () => {
             name="name"
             // autoComplete="name"
             autoFocus
-            // onChange={handleChange}
-            // value={name}
+            onChange={handleNewRecorderNameChange}
+            value={newRecorderName}
           />
           <CategoriesList />
-          <Button
-            type="submit"
-            // fullWidth
-            variant="contained"
-            // color="success"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
             Create
           </Button>
         </Box>
