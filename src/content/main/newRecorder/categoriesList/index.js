@@ -66,7 +66,7 @@ export const CategoriesList = () => {
           </ListItem>
         ))}
       </List>
-      <CreateCategory />
+      <CreateCategory categories={categories} setCategories={setCategories} />
     </Box>
   );
 };

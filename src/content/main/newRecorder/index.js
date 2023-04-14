@@ -27,7 +27,7 @@ export const NewRecorder = () => {
           component="form"
           // onSubmit={handleSubmit}
           noValidate
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, width: "90%" }}
         >
           <TextField
             margin="normal"
