@@ -1,23 +1,29 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../../contexts/auth/AuthContext";
 import { CategoriesList } from "./categoriesList";
+import { createNewRecorder } from "./createRecorder";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const theme = createTheme();
+// const theme = createTheme();
 
 export const NewRecorder = () => {
+  const isAuthorization = useContext(AuthContext);
+  const userID = isAuthorization.authorization.uid;
+
   const [newRecorderName, setNewRecorderName] = useState("");
 
   const handleNewRecorderNameChange = (e) => {
     setNewRecorderName(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await createNewRecorder(userID, newRecorderName);
     console.log(newRecorderName);
   };
 
