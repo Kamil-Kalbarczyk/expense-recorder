@@ -13,7 +13,6 @@ export const NewRecorder = () => {
   const isAuthorization = useContext(AuthContext);
   const userID = isAuthorization.authorization.uid;
   const recorders = useContext(ProjectsContext);
-  console.log(recorders);
 
   const [newRecorderName, setNewRecorderName] = useState("");
   const [categories, setCategories] = useState([]);
@@ -25,7 +24,9 @@ export const NewRecorder = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newRecorderName.length > 0) {
-      await createNewRecorder(userID, newRecorderName);
+      const activeCategories = categories.filter((category) => category.active);
+      const activeCategoryIds = activeCategories.map((category) => category.id);
+      await createNewRecorder(userID, newRecorderName, activeCategoryIds);
     }
   };
 
