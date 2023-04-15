@@ -8,14 +8,16 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Alert from "@mui/material/Alert";
 
 export const NewRecorder = () => {
   const isAuthorization = useContext(AuthContext);
   const userID = isAuthorization.authorization.uid;
-  const recorders = useContext(ProjectsContext);
+  const recorders = useContext(ProjectsContext).projects;
 
   const [newRecorderName, setNewRecorderName] = useState("");
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState("");
 
   const handleNewRecorderNameChange = (e) => {
     setNewRecorderName(e.target.value);
@@ -24,9 +26,23 @@ export const NewRecorder = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newRecorderName.length > 0) {
-      const activeCategories = categories.filter((category) => category.active);
-      const activeCategoryIds = activeCategories.map((category) => category.id);
-      await createNewRecorder(userID, newRecorderName, activeCategoryIds);
+      let errorText = "";
+      recorders.forEach((recorder) => {
+        if (recorder.project_name === newRecorderName) {
+          errorText = "Project with this name already exists!";
+          setError(errorText);
+        }
+      });
+
+      if (errorText.length === 0) {
+        const activeCategories = categories.filter(
+          (category) => category.active
+        );
+        const activeCategoryIds = activeCategories.map(
+          (category) => category.id
+        );
+        await createNewRecorder(userID, newRecorderName, activeCategoryIds);
+      }
     }
   };
 
@@ -74,6 +90,13 @@ export const NewRecorder = () => {
             Create
           </Button>
         </Box>
+        {error ? (
+          <Alert variant="filled" severity="error">
+            {error}
+          </Alert>
+        ) : (
+          <></>
+        )}
       </Box>
     </Container>
   );
