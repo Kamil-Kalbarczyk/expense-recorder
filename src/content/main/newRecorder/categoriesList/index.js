@@ -32,9 +32,9 @@ export const CategoriesList = () => {
       <List
         sx={{
           width: "100%",
-          maxWidth: 360,
+          maxWidth: 300,
           bgcolor: "background.paper",
-          margin: 0,
+          margin: "0 auto",
           padding: 0,
         }}
       >
@@ -44,14 +44,15 @@ export const CategoriesList = () => {
             disableGutters
             secondaryAction={
               <div>
-                <IconButton
+                {/* setting option is hiding in comment, but maybe it will be necessary to bring it back in the future. */}
+                {/* <IconButton
                   aria-label="settings"
                   onClick={(e) => {
                     console.log(e);
                   }}
                 >
                   <SettingsIcon />
-                </IconButton>
+                </IconButton> */}
                 <Checkbox
                   onChange={(e) => {
                     console.log(e.target.checked);
