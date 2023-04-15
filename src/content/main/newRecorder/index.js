@@ -23,8 +23,9 @@ export const NewRecorder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createNewRecorder(userID, newRecorderName);
-    console.log(newRecorderName);
+    if (newRecorderName.length > 0) {
+      await createNewRecorder(userID, newRecorderName);
+    }
   };
 
   return (
@@ -60,7 +61,12 @@ export const NewRecorder = () => {
             value={newRecorderName}
           />
           <CategoriesList />
-          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            disabled={newRecorderName.length > 0 ? false : true}
+            type="submit"
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
             Create
           </Button>
         </Box>
