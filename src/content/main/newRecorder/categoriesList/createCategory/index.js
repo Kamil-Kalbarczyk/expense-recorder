@@ -6,12 +6,16 @@ import { FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 
 export const CreateCategory = ({ categories, setCategories }) => {
   const isAuthorization = useContext(AuthContext);
   const userID = isAuthorization.authorization.uid;
   const [anchorEl, setAnchorEl] = useState(null);
   const [newCategory, setNewCategory] = useState("");
+  const [error, setError] = useState("");
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,6 +24,7 @@ export const CreateCategory = ({ categories, setCategories }) => {
     setAnchorEl(null);
     // clear input with new category name
     setNewCategory("");
+    setError("");
   };
 
   const handleNewCategoryNameChange = (e) => {
@@ -28,11 +33,23 @@ export const CreateCategory = ({ categories, setCategories }) => {
 
   const handleNewCategoryClick = async (e) => {
     e.preventDefault();
-    const addedCategory = await createNewCategory(userID, newCategory);
-    console.log("addedCategory ==> ", addedCategory);
-    setCategories([...categories, addedCategory]);
-    // close window
-    handleClose();
+    let errorText = "";
+
+    categories.forEach((category) => {
+      if (category.category.toLowerCase() === newCategory.toLowerCase()) {
+        console.log("taki sam");
+        errorText = "This category already exists!";
+        setError(errorText);
+        return;
+      }
+    });
+    if (errorText.length === 0) {
+      const addedCategory = await createNewCategory(userID, newCategory);
+      // console.log("addedCategory ==> ", addedCategory);
+      setCategories([...categories, addedCategory]);
+      // close window
+      handleClose();
+    }
   };
 
   return (
@@ -51,12 +68,13 @@ export const CreateCategory = ({ categories, setCategories }) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        // MenuListProps={{
-        //   "aria-labelledby": "basic-button",
-        // }}
       >
         <Box
-          sx={{ padding: 5, display: "flex", flexDirection: "column" }}
+          sx={{
+            padding: 5,
+            display: "flex",
+            flexDirection: "column",
+          }}
           component="form"
         >
           <TextField
@@ -73,6 +91,13 @@ export const CreateCategory = ({ categories, setCategories }) => {
           <Button type="submit" onClick={handleNewCategoryClick}>
             Save
           </Button>
+          {error ? (
+            <Alert variant="filled" severity="error">
+              {error}
+            </Alert>
+          ) : (
+            <></>
+          )}
         </Box>
       </Menu>
     </div>

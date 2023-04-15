@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../../contexts/auth/AuthContext";
+import { ProjectsContext } from "../../../contexts/projects/ProjectsContext";
 import { CategoriesList } from "./categoriesList";
 import { createNewRecorder } from "./createRecorder";
 import Button from "@mui/material/Button";
@@ -7,15 +8,15 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-// import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-// const theme = createTheme();
 
 export const NewRecorder = () => {
   const isAuthorization = useContext(AuthContext);
   const userID = isAuthorization.authorization.uid;
+  const recorders = useContext(ProjectsContext);
+  console.log(recorders);
 
   const [newRecorderName, setNewRecorderName] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const handleNewRecorderNameChange = (e) => {
     setNewRecorderName(e.target.value);
@@ -29,7 +30,6 @@ export const NewRecorder = () => {
   };
 
   return (
-    // <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
@@ -60,7 +60,10 @@ export const NewRecorder = () => {
             onChange={handleNewRecorderNameChange}
             value={newRecorderName}
           />
-          <CategoriesList />
+          <CategoriesList
+            categories={categories}
+            setCategories={setCategories}
+          />
           <Button
             disabled={newRecorderName.length > 0 ? false : true}
             type="submit"
@@ -72,6 +75,5 @@ export const NewRecorder = () => {
         </Box>
       </Box>
     </Container>
-    // </ThemeProvider>
   );
 };

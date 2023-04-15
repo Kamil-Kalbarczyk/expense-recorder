@@ -11,8 +11,7 @@ import { Checkbox } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-export const CategoriesList = () => {
-  const [categories, setCategories] = useState([]);
+export const CategoriesList = ({ categories, setCategories }) => {
   const isAuthorization = useContext(AuthContext);
   const userID = isAuthorization.authorization.uid;
   useEffect(() => {
@@ -57,7 +56,6 @@ export const CategoriesList = () => {
                   onChange={(e) => {
                     console.log(e.target.checked);
                   }}
-                  // defaultChecked={active ? true : false}
                   checked={active}
                 />
               </div>
