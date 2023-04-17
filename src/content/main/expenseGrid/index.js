@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/auth/AuthContext";
+import { ProjectsContext } from "../../../contexts/projects/ProjectsContext";
 import { app } from "../../../firebase";
 import {
   getFirestore,
@@ -21,7 +22,15 @@ const db = getFirestore(app);
 export const GridExpenses = () => {
   const isAuthorization = useContext(AuthContext);
   const userID = isAuthorization.authorization.uid;
+
+  const { projects, setProjects } = useContext(ProjectsContext);
+
   const { projectID } = useParams();
+
+  const currentProject = projects.filter(
+    (project) => project.project_id === projectID
+  )[0];
+
   const [dataGrid, setDataGrid] = useState([]);
   const [columnsGrid, setColumnsGrid] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,26 +38,42 @@ export const GridExpenses = () => {
   // =============== Fetching data start ===============
 
   // columns
-  const getColumnsGridQuery = query(
+  const getCategories = query(
     collection(db, "categories"),
     where("userID", "==", userID),
-    where("projects", "array-contains", projectID),
+    // where("projects", "array-contains", projectID),
     orderBy("create_date", "asc")
   );
 
   const getColumnsGridFromFirestore = async () => {
-    const querySnapshot = await getDocs(getColumnsGridQuery);
-    const columnsFromFirestore = [];
+    const querySnapshot = await getDocs(getCategories);
+    const allCategories = [];
     querySnapshot.forEach((doc) => {
-      columnsFromFirestore.push({
+      allCategories.push({
         id: doc.id,
         ...doc.data(),
         create_date: convertTimestampToDate(doc.data()?.create_date?.seconds),
       });
     });
+
+    const projectCategories = allCategories
+      .map((category) => {
+        let cat = undefined;
+        if (currentProject.categories !== undefined) {
+          currentProject.categories.forEach((projCategory) => {
+            if (projCategory === category.id) {
+              cat = category;
+            }
+          });
+        }
+
+        return cat;
+      })
+      .filter((cat) => cat);
+
     // set columns for grid
     setColumnsGrid(
-      columnsFromFirestore.map((item) => ({
+      projectCategories.map((item) => ({
         id: item.id,
         category: item.category,
       }))
@@ -80,13 +105,14 @@ export const GridExpenses = () => {
   };
 
   const fetchDataFromFirestore = async () => {
+    // await getCategoriesFromFirestore();
     await getColumnsGridFromFirestore();
     await getDataGridFromFirestore();
   };
 
   useEffect(() => {
     fetchDataFromFirestore();
-  }, [projectID]);
+  }, [projectID, projects]);
 
   // =============== Fetching data end ===============
 
