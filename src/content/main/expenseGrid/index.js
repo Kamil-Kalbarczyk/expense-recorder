@@ -105,7 +105,6 @@ export const GridExpenses = () => {
   };
 
   const fetchDataFromFirestore = async () => {
-    // await getCategoriesFromFirestore();
     await getColumnsGridFromFirestore();
     await getDataGridFromFirestore();
   };

@@ -20,6 +20,31 @@ export const CategoriesList = ({ categories, setCategories }) => {
     });
   }, [userID]);
 
+  const handleCheckboxChange = (id, active) => {
+    const currentCategory = categories.filter(
+      (category) => category.id === id
+    )[0];
+
+    currentCategory.active = active;
+
+    const allCategories = categories.filter((category) => category.id !== id);
+    allCategories.push(currentCategory);
+
+    function keepingOrdering(a, b) {
+      if (a.create_date < b.create_date) {
+        return -1;
+      }
+      if (a.create_date > b.create_date) {
+        return 1;
+      }
+      return 0;
+    }
+
+    allCategories.sort(keepingOrdering);
+
+    setCategories(allCategories);
+  };
+
   return (
     <Box>
       <Typography
@@ -54,7 +79,8 @@ export const CategoriesList = ({ categories, setCategories }) => {
                 </IconButton> */}
                 <Checkbox
                   onChange={(e) => {
-                    console.log(e.target.checked);
+                    const checkedValue = e.target.checked;
+                    handleCheckboxChange(id, checkedValue);
                   }}
                   checked={active}
                 />
