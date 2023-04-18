@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/auth/AuthContext";
 import { ProjectsContext } from "../../../contexts/projects/ProjectsContext";
 import { CategoriesList } from "./categoriesList";
@@ -15,6 +16,7 @@ export const NewRecorder = () => {
   const userID = isAuthorization.authorization.uid;
   const recorders = useContext(ProjectsContext).projects;
   const setProjects = useContext(ProjectsContext).setProjects;
+  const navigate = useNavigate();
 
   const [newRecorderName, setNewRecorderName] = useState("");
   const [categories, setCategories] = useState([]);
@@ -42,12 +44,15 @@ export const NewRecorder = () => {
         const activeCategoryIds = activeCategories.map(
           (category) => category.id
         );
-        await createNewRecorder(
+        // create new recorder
+        const newRec = await createNewRecorder(
           userID,
           newRecorderName,
           activeCategoryIds,
           setProjects
         );
+        // navigate direct to the new recorder
+        navigate(`/grid/${newRec.id}`);
       }
     }
   };
