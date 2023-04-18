@@ -84,7 +84,7 @@ export const CategoriesList = ({ categories, setCategories }) => {
                     onChange={(e) => {
                       const checkedValue = e.target.checked;
                       handleCheckboxChange(id, checkedValue);
-                      updateActiveCategory(item, checkedValue);
+                      updateActiveCategory(item);
                     }}
                     checked={active}
                   />
