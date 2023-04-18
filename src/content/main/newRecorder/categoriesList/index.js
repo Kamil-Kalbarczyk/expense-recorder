@@ -2,6 +2,7 @@ import { CreateCategory } from "./createCategory";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../../contexts/auth/AuthContext";
 import { fetchCategories } from "./fetchCategories";
+import { updateActiveCategory } from "./updateActiveCategory";
 import { List } from "@mui/material";
 import { ListItem } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -62,14 +63,16 @@ export const CategoriesList = ({ categories, setCategories }) => {
           padding: 0,
         }}
       >
-        {categories.map(({ id, active, category }) => (
-          <ListItem
-            key={id}
-            disableGutters
-            secondaryAction={
-              <div>
-                {/* setting option is hiding in comment, but maybe it will be necessary to bring it back in the future. */}
-                {/* <IconButton
+        {categories.map((item) => {
+          const { id, active, category } = item;
+          return (
+            <ListItem
+              key={id}
+              disableGutters
+              secondaryAction={
+                <div>
+                  {/* setting option is hiding in comment, but maybe it will be necessary to bring it back in the future. */}
+                  {/* <IconButton
                   aria-label="settings"
                   onClick={(e) => {
                     console.log(e);
@@ -77,19 +80,21 @@ export const CategoriesList = ({ categories, setCategories }) => {
                 >
                   <SettingsIcon />
                 </IconButton> */}
-                <Checkbox
-                  onChange={(e) => {
-                    const checkedValue = e.target.checked;
-                    handleCheckboxChange(id, checkedValue);
-                  }}
-                  checked={active}
-                />
-              </div>
-            }
-          >
-            <ListItemText primary={category} />
-          </ListItem>
-        ))}
+                  <Checkbox
+                    onChange={(e) => {
+                      const checkedValue = e.target.checked;
+                      handleCheckboxChange(id, checkedValue);
+                      updateActiveCategory(item, checkedValue);
+                    }}
+                    checked={active}
+                  />
+                </div>
+              }
+            >
+              <ListItemText primary={category} />
+            </ListItem>
+          );
+        })}
       </List>
       <CreateCategory categories={categories} setCategories={setCategories} />
     </Box>
