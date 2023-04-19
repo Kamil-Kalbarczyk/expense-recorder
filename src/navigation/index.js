@@ -3,6 +3,7 @@ import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
+import AlertDialogSlide from "../logOut";
 
 export const Navigation = () => {
   const [navigationState, setNavigationState] = useState(false);
@@ -26,6 +27,7 @@ export const Navigation = () => {
         onClose={toggleDrawer("left", false)}
       >
         <ListItems anchor={"left"} toggleDrawer={toggleDrawer} />
+        <AlertDialogSlide />
       </Drawer>
     </div>
   );
