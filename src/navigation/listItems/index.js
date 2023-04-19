@@ -16,18 +16,6 @@ import Box from "@mui/material/Box";
 
 export const ListItems = ({ anchor, toggleDrawer }) => {
   const projects = useContext(ProjectsContext).projects;
-  // const [settingButtons, setSettingButtons] = useState([
-  //   {
-  //     text: "Create new recorder",
-  //     icon: "<SettingsIcon />",
-  //     link: "/",
-  //   },
-  //   {
-  //     text: "Log out",
-  //     icon: "<LogoutIcon />",
-  //     link: "/",
-  //   },
-  // ]);
 
   const activeLinkStyle = {
     backgroundColor: "#ddd",
@@ -80,9 +68,9 @@ export const ListItems = ({ anchor, toggleDrawer }) => {
 
         <ListItem disablePadding>
           <ListItemButton
-          // component={NavLink}
-          // to="/"
-          // style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
+            component={NavLink}
+            to="/log-out"
+            style={({ isActive }) => (isActive ? activeLinkStyle : undefined)}
           >
             <ListItemIcon>
               <LogoutIcon />
