@@ -112,31 +112,33 @@ export const Recorder = () => {
   }, [projectID, projects]);
 
   // =============== Fetching data end ===============
-
-  return (
-    <>
-      <RecorderGrid
-        dataGrid={dataGrid}
-        setDataGrid={setDataGrid}
-        columnsGrid={columnsGrid}
-        setColumnsGrid={setColumnsGrid}
-        loading={loading}
-        setLoading={setLoading}
-        projectID={projectID}
-        userID={userID}
-        getDataGridFromFirestore={getDataGridFromFirestore}
-      />
-      <Summary
-        dataGrid={dataGrid}
-        setDataGrid={setDataGrid}
-        columnsGrid={columnsGrid}
-        setColumnsGrid={setColumnsGrid}
-        loading={loading}
-        setLoading={setLoading}
-        projectID={projectID}
-        userID={userID}
-        // getDataGridFromFirestore={getDataGridFromFirestore}
-      />
-    </>
-  );
+  if (dataGrid && columnsGrid && projectID && userID) {
+    return (
+      <>
+        <RecorderGrid
+          dataGrid={dataGrid}
+          setDataGrid={setDataGrid}
+          columnsGrid={columnsGrid}
+          setColumnsGrid={setColumnsGrid}
+          loading={loading}
+          setLoading={setLoading}
+          projectID={projectID}
+          userID={userID}
+          getDataGridFromFirestore={getDataGridFromFirestore}
+        />
+        <Summary
+          dataGrid={dataGrid}
+          setDataGrid={setDataGrid}
+          columnsGrid={columnsGrid}
+          setColumnsGrid={setColumnsGrid}
+          loading={loading}
+          setLoading={setLoading}
+          projectID={projectID}
+          userID={userID}
+          // getDataGridFromFirestore={getDataGridFromFirestore}
+          currentProject={currentProject}
+        />
+      </>
+    );
+  }
 };

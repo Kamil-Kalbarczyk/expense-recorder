@@ -13,18 +13,6 @@ export const RecorderGrid = ({
   userID,
   getDataGridFromFirestore,
 }) => {
-  console.log(
-    dataGrid,
-    setDataGrid,
-    columnsGrid,
-    setColumnsGrid,
-    loading,
-    setLoading,
-    projectID,
-    userID,
-    getDataGridFromFirestore
-  );
-
   // =============== Building grid start ===============
   const columns = [
     {
