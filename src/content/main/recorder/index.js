@@ -13,10 +13,6 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { convertTimestampToDate } from "../../../common/functions";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
-
-// import { rowUpdate } from "./gridFunctions";
 
 const db = getFirestore(app);
 
@@ -60,7 +56,7 @@ export const Recorder = () => {
     const projectCategories = allCategories
       .map((category) => {
         let cat = undefined;
-        if (currentProject.categories !== undefined) {
+        if (currentProject?.categories !== undefined) {
           currentProject.categories.forEach((projCategory) => {
             if (projCategory === category.id) {
               cat = category;

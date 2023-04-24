@@ -15,7 +15,7 @@ import { convertTimestampToDate } from "../../../../common/functions";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
-import { rowUpdate } from "../../expenseGrid/gridFunctions";
+import { rowUpdate } from "./gridFunctions";
 
 export const RecorderGrid = ({
   dataGrid,
