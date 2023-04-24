@@ -1,20 +1,5 @@
-import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { AuthContext } from "../../../../contexts/auth/AuthContext";
-import { ProjectsContext } from "../../../../contexts/projects/ProjectsContext";
-import { app } from "../../../../firebase";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-  orderBy,
-} from "firebase/firestore";
-import { convertTimestampToDate } from "../../../../common/functions";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-
 import { rowUpdate } from "./gridFunctions";
 
 export const RecorderGrid = ({
@@ -28,6 +13,18 @@ export const RecorderGrid = ({
   userID,
   getDataGridFromFirestore,
 }) => {
+  console.log(
+    dataGrid,
+    setDataGrid,
+    columnsGrid,
+    setColumnsGrid,
+    loading,
+    setLoading,
+    projectID,
+    userID,
+    getDataGridFromFirestore
+  );
+
   // =============== Building grid start ===============
   const columns = [
     {
@@ -40,7 +37,6 @@ export const RecorderGrid = ({
       // description: "This column has a value getter and is not sortable.",
     },
   ];
-
   columnsGrid.forEach((column) => {
     columns.push({
       field: column.id,
@@ -88,7 +84,7 @@ export const RecorderGrid = ({
   sortRowsById();
   // =============== Building grid end ===============
   return (
-    <Box sx={{ height: "90vh", width: "100%" }}>
+    <Box sx={{ height: "85vh", width: "100%" }}>
       <DataGrid
         sx={{
           "& .MuiDataGrid-cell": {
@@ -112,12 +108,6 @@ export const RecorderGrid = ({
           rowUpdate(projectID, newRow, userID);
           // refresh data from database
           getDataGridFromFirestore();
-
-          // if (newRow.id === rows.length) {
-          //   console.log("fetch data");
-          //   getDataGridFromFirestore();
-          // }
-
           // removing editing css class
           const cell = document.querySelector(".MuiDataGrid-cell--editing");
           cell.classList.remove("MuiDataGrid-cell--editing");

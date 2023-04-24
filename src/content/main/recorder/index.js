@@ -1,4 +1,5 @@
 import { RecorderGrid } from "./grid";
+import { Summary } from "./summary";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/auth/AuthContext";
@@ -124,6 +125,17 @@ export const Recorder = () => {
         projectID={projectID}
         userID={userID}
         getDataGridFromFirestore={getDataGridFromFirestore}
+      />
+      <Summary
+        dataGrid={dataGrid}
+        setDataGrid={setDataGrid}
+        columnsGrid={columnsGrid}
+        setColumnsGrid={setColumnsGrid}
+        loading={loading}
+        setLoading={setLoading}
+        projectID={projectID}
+        userID={userID}
+        // getDataGridFromFirestore={getDataGridFromFirestore}
       />
     </>
   );
