@@ -114,7 +114,7 @@ export const Recorder = () => {
   // =============== Fetching data end ===============
   if (dataGrid && columnsGrid && projectID && userID) {
     return (
-      <>
+      <div>
         <RecorderGrid
           dataGrid={dataGrid}
           setDataGrid={setDataGrid}
@@ -138,7 +138,7 @@ export const Recorder = () => {
           // getDataGridFromFirestore={getDataGridFromFirestore}
           currentProject={currentProject}
         />
-      </>
+      </div>
     );
   }
 };

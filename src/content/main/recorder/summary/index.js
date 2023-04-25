@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
-export const Summary = (
+export const Summary = ({
   dataGrid,
   setDataGrid,
   columnsGrid,
@@ -11,40 +11,84 @@ export const Summary = (
   setLoading,
   projectID,
   userID,
-  getDataGridFromFirestore
-) => {
-  console.log(columnsGrid);
-  const columns = [
-    { field: "id", headerName: "Context", width: 150 },
-    {
-      field: "firstName",
-      headerName: "First name",
+  getDataGridFromFirestore,
+}) => {
+  // columns start --------------------------
+  const columns = [{ field: "id", headerName: "Context", width: 150 }];
+  columnsGrid.forEach((column) => {
+    columns.push({
+      field: column.id,
+      headerName: column.category,
       width: 150,
-      editable: true,
-    },
-    {
-      field: "lastName",
-      headerName: "Last name",
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "age",
-      headerName: "Age",
+      editable: false,
+      // sortable: false,
       type: "number",
-      width: 110,
-      editable: true,
-    },
-    {
-      field: "fullName",
-      headerName: "Full name",
-      description: "This column has a value getter and is not sortable.",
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-    },
-  ];
+    });
+  });
+  // columns end --------------------------
+
+  // rows end --------------------------
+  let allExpenses = [];
+  let sortedExpenses = columns.map((column) => {
+    return { column: column.field };
+  });
+  let summaryExpenses = [];
+  let totalExpenses = 0;
+
+  // collect all expenses
+  dataGrid.forEach((data) => {
+    data.expenses.forEach((expense) => {
+      allExpenses.push(expense);
+    });
+  });
+
+  // summing up and grouping expenses
+  columns.forEach((column) => {
+    const category_id = column.field;
+    let value = 0;
+
+    allExpenses.forEach((expense) => {
+      if (expense.category_id == category_id) {
+        value += expense.value;
+        totalExpenses += expense.value;
+      }
+    });
+    sortedExpenses.forEach((category) => {
+      if (category.column == category_id) {
+        summaryExpenses.push({ column: category_id, value: value });
+      }
+    });
+  });
+
+  // add percents to the rows
+  summaryExpenses = summaryExpenses.map((row) => {
+    if (row.column === "id") {
+      return { column: row.column, value: "Total", percent: "Percent" };
+    } else {
+      let percent = Math.round((row.value / totalExpenses) * 10000) / 10000;
+      percent = (percent * 100).toString() + " %";
+      return {
+        ...row,
+        percent: percent,
+      };
+    }
+  });
+
+  console.log(summaryExpenses);
+
+  // let rowsie = summaryExpenses.map(row => {
+  //   return {
+  //     id: "Total",
+  //   }
+  // })
+
+  let rowX = summaryExpenses.map((row) => {
+    return {
+      id: "Total",
+      [row.column]: row.value,
+    };
+  });
+  console.log(rowX);
 
   const rows = [
     { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
@@ -65,9 +109,9 @@ export const Summary = (
           "& .MuiDataGrid-cell": {
             justifyContent: "right",
           },
-          "& .MuiDataGrid-cell:hover": {
-            backgroundColor: "lightgrey",
-          },
+          // "& .MuiDataGrid-cell:hover": {
+          //   backgroundColor: "lightgrey",
+          // },
         }}
         rows={rows}
         columns={columns}
