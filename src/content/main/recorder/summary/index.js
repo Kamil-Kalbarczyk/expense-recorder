@@ -21,6 +21,7 @@ export const Summary = ({
       width: 150,
       editable: false,
       sortable: false,
+      headerAlign: "right",
     },
   ];
   columnsGrid.forEach((column) => {
@@ -30,7 +31,17 @@ export const Summary = ({
       width: 150,
       editable: false,
       sortable: false,
+      headerAlign: "right",
     });
+  });
+  columns.push({
+    field: "totalValue",
+    headerName: "Summary Value",
+    width: 150,
+    editable: false,
+    sortable: false,
+    headerAlign: "right",
+    // cellClassName: "bold",
   });
   // columns end --------------------------
 
@@ -87,13 +98,16 @@ export const Summary = ({
 
   let totalRow = [{ id: "Total" }];
   let percentRow = [{ id: "Percent" }];
+  let expensesTotalValue = 0;
   summaryExpenses.forEach((item) => {
     if (item.column !== "id") {
+      expensesTotalValue += item.value;
       totalRow[0] = { ...totalRow[0], [item.column]: item.value };
       percentRow[0] = { ...percentRow[0], [item.column]: item.percent };
     }
   });
-
+  totalRow[0] = { ...totalRow[0], totalValue: expensesTotalValue };
+  percentRow[0] = { ...percentRow[0], totalValue: "100 %" };
   const rows = [totalRow[0], percentRow[0]];
 
   // rows end --------------------------
