@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+import "./summary.css";
 
 export const Summary = ({
   dataGrid,
@@ -41,7 +42,7 @@ export const Summary = ({
     editable: false,
     sortable: false,
     headerAlign: "right",
-    // cellClassName: "bold",
+    cellClassName: "Summary__total",
   });
   // columns end --------------------------
 
