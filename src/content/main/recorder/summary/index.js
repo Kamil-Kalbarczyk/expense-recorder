@@ -14,20 +14,27 @@ export const Summary = ({
   getDataGridFromFirestore,
 }) => {
   // columns start --------------------------
-  const columns = [{ field: "id", headerName: "Context", width: 150 }];
+  const columns = [
+    {
+      field: "id",
+      headerName: "Context",
+      width: 150,
+      editable: false,
+      sortable: false,
+    },
+  ];
   columnsGrid.forEach((column) => {
     columns.push({
       field: column.id,
       headerName: column.category,
       width: 150,
       editable: false,
-      // sortable: false,
-      type: "number",
+      sortable: false,
     });
   });
   // columns end --------------------------
 
-  // rows end --------------------------
+  // rows start --------------------------
   let allExpenses = [];
   let sortedExpenses = columns.map((column) => {
     return { column: column.field };
@@ -66,7 +73,11 @@ export const Summary = ({
       return { column: row.column, value: "Total", percent: "Percent" };
     } else {
       let percent = Math.round((row.value / totalExpenses) * 10000) / 10000;
-      percent = (percent * 100).toString() + " %";
+
+      percent = (percent * 100).toString();
+      percent = percent.slice(0, percent.indexOf(".") + 3);
+      percent = percent + " %";
+
       return {
         ...row,
         percent: percent,
@@ -74,33 +85,18 @@ export const Summary = ({
     }
   });
 
-  console.log(summaryExpenses);
-
-  // let rowsie = summaryExpenses.map(row => {
-  //   return {
-  //     id: "Total",
-  //   }
-  // })
-
-  let rowX = summaryExpenses.map((row) => {
-    return {
-      id: "Total",
-      [row.column]: row.value,
-    };
+  let totalRow = [{ id: "Total" }];
+  let percentRow = [{ id: "Percent" }];
+  summaryExpenses.forEach((item) => {
+    if (item.column !== "id") {
+      totalRow[0] = { ...totalRow[0], [item.column]: item.value };
+      percentRow[0] = { ...percentRow[0], [item.column]: item.percent };
+    }
   });
-  console.log(rowX);
 
-  const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  ];
+  const rows = [totalRow[0], percentRow[0]];
+
+  // rows end --------------------------
 
   return (
     <Box sx={{ height: "85vh", width: "100%" }}>
@@ -117,24 +113,10 @@ export const Summary = ({
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        // checkboxSelection
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
         // loading={loading}
         showCellVerticalBorder={true}
-        // processRowUpdate={(newRow, oldRow) => {
-        //   setLoading(true);
-        //   rowUpdate(projectID, newRow, userID);
-        //   // refresh data from database
-        //   getDataGridFromFirestore();
-        //   // removing editing css class
-        //   const cell = document.querySelector(".MuiDataGrid-cell--editing");
-        //   cell.classList.remove("MuiDataGrid-cell--editing");
-        //   setLoading(false);
-        // }}
-        // onProcessRowUpdateError={(error) => {
-        //   // console.log(error);
-        // }}
       />
     </Box>
   );
