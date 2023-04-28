@@ -137,6 +137,7 @@ export const Summary = ({
         loading={loading}
         showCellVerticalBorder={true}
         autoHeight={true}
+        hideFooter={true}
       />
     </Box>
   );
