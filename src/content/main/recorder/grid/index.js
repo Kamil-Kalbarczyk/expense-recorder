@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { rowUpdate } from "./gridFunctions";
+import { Typography } from "@mui/material";
 
 export const RecorderGrid = ({
   dataGrid,
@@ -73,8 +74,12 @@ export const RecorderGrid = ({
   // =============== Building grid end ===============
   return (
     <Box sx={{ height: "85vh", width: "100%" }}>
+      <Typography variant="h6" sx={{ mb: 1, ml: 2 }}>
+        Provide expenses
+      </Typography>
       <DataGrid
         sx={{
+          height: "calc(85vh - 40px)",
           "& .MuiDataGrid-cell": {
             justifyContent: "right",
           },

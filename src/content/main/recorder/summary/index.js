@@ -116,17 +116,14 @@ export const Summary = ({
 
   return (
     <Box sx={{ width: "100%", mt: 4 }}>
-      <Typography variant="h5" sx={{ mb: 2 }}>
-        Expense summary:
+      <Typography variant="h6" sx={{ mb: 1, ml: 2 }}>
+        Expense summary
       </Typography>
       <DataGrid
         sx={{
           "& .MuiDataGrid-cell": {
             justifyContent: "right",
           },
-          // "& .MuiDataGrid-cell:hover": {
-          //   backgroundColor: "lightgrey",
-          // },
         }}
         rows={rows}
         columns={columns}
