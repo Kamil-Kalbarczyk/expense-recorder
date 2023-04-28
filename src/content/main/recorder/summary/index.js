@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import "./summary.css";
+import { Typography } from "@mui/material";
 
 export const Summary = ({
   dataGrid,
@@ -114,7 +115,10 @@ export const Summary = ({
   // rows end --------------------------
 
   return (
-    <Box sx={{ height: "85vh", width: "100%" }}>
+    <Box sx={{ width: "100%", mt: 4 }}>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        Expense summary:
+      </Typography>
       <DataGrid
         sx={{
           "& .MuiDataGrid-cell": {
@@ -130,8 +134,9 @@ export const Summary = ({
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
-        // loading={loading}
+        loading={loading}
         showCellVerticalBorder={true}
+        autoHeight={true}
       />
     </Box>
   );
