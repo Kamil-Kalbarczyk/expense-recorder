@@ -1,3 +1,4 @@
+import { RecorderHeader } from "./recorder-header";
 import { RecorderGrid } from "./grid";
 import { Summary } from "./summary";
 import { useEffect, useState, useContext } from "react";
@@ -115,12 +116,10 @@ export const Recorder = () => {
 
   // =============== Fetching data end ===============
 
-  if (dataGrid && columnsGrid && projectID && userID) {
+  if (dataGrid && columnsGrid && projectID && userID && currentProject) {
     return (
       <div>
-        <Typography variant="h6" sx={{ ml: 2 }}>
-          Recorder {currentProject.project_name}
-        </Typography>
+        <RecorderHeader project_name={currentProject.project_name} />
         <RecorderGrid
           dataGrid={dataGrid}
           setDataGrid={setDataGrid}
