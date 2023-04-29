@@ -14,6 +14,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { convertTimestampToDate } from "../../../common/functions";
+import Divider from "@mui/material/Divider";
 
 const db = getFirestore(app);
 
@@ -126,6 +127,7 @@ export const Recorder = () => {
           userID={userID}
           getDataGridFromFirestore={getDataGridFromFirestore}
         />
+        <Divider variant="inset" sx={{ m: 3 }} />
         <Summary
           dataGrid={dataGrid}
           setDataGrid={setDataGrid}

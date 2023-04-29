@@ -115,8 +115,8 @@ export const Summary = ({
   // rows end --------------------------
 
   return (
-    <Box sx={{ width: "100%", mt: 4 }}>
-      <Typography variant="h6" sx={{ mb: 1, ml: 2 }}>
+    <Box sx={{ width: "100%" }}>
+      <Typography variant="subtitle1" sx={{ mb: 1, ml: 2 }}>
         Expense summary
       </Typography>
       <DataGrid
