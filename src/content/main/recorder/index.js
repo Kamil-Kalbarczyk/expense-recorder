@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { convertTimestampToDate } from "../../../common/functions";
 import Divider from "@mui/material/Divider";
+import { Typography } from "@mui/material";
 
 const db = getFirestore(app);
 
@@ -113,9 +114,13 @@ export const Recorder = () => {
   }, [projectID, projects]);
 
   // =============== Fetching data end ===============
+
   if (dataGrid && columnsGrid && projectID && userID) {
     return (
       <div>
+        <Typography variant="h6" sx={{ ml: 2 }}>
+          Recorder {currentProject.project_name}
+        </Typography>
         <RecorderGrid
           dataGrid={dataGrid}
           setDataGrid={setDataGrid}
