@@ -35,6 +35,7 @@ export const RecorderGrid = ({
       editable: true,
       // sortable: false,
       type: "number",
+      flex: 1,
     });
   });
 
@@ -85,6 +86,7 @@ export const RecorderGrid = ({
   return (
     <Box
       sx={{
+        margin: "0 auto",
         height: "80vh",
         width: gridWidth,
       }}

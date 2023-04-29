@@ -43,6 +43,7 @@ export const Summary = ({
     sortable: false,
     headerAlign: "right",
     cellClassName: "Summary__total",
+    flex: 1,
   });
   // columns end --------------------------
 
@@ -122,7 +123,7 @@ export const Summary = ({
     ) + 2; // add 5px for scroll bar
 
   return (
-    <Box sx={{ width: gridWidth }}>
+    <Box sx={{ margin: "0 auto", width: gridWidth }}>
       <Typography variant="subtitle1" sx={{ mb: 1, ml: 2 }}>
         Expense summary
       </Typography>
