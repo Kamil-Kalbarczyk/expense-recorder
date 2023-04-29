@@ -113,8 +113,16 @@ export const Summary = ({
 
   // rows end --------------------------
 
+  // Calculate Grid width
+  const columnsWidth = columns.map((column) => column.width);
+  const gridWidth =
+    columnsWidth.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    ) + 2; // add 5px for scroll bar
+
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: gridWidth }}>
       <Typography variant="subtitle1" sx={{ mb: 1, ml: 2 }}>
         Expense summary
       </Typography>

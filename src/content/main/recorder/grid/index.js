@@ -15,6 +15,7 @@ export const RecorderGrid = ({
   getDataGridFromFirestore,
 }) => {
   // =============== Building grid start ===============
+  // columns ------------
   const columns = [
     {
       field: "id",
@@ -37,7 +38,7 @@ export const RecorderGrid = ({
     });
   });
 
-  // rows
+  // rows ------------
   const rows = dataGrid.map((data) => {
     let row = { id: Number(data.id) };
     data.expenses.forEach((expense) => {
@@ -72,11 +73,25 @@ export const RecorderGrid = ({
   addOneExtarRow();
   sortRowsById();
   // =============== Building grid end ===============
+
+  // Calculate Grid width
+  const columnsWidth = columns.map((column) => column.width);
+  const gridWidth =
+    columnsWidth.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    ) + 5; // add 5px for scroll bar
+
   return (
-    <Box sx={{ height: "85vh", width: "100%" }}>
+    <Box
+      sx={{
+        height: "80vh",
+        width: gridWidth,
+      }}
+    >
       <DataGrid
         sx={{
-          height: "calc(85vh - 40px)",
+          // height: "calc(85vh - 40px)",
           "& .MuiDataGrid-cell": {
             justifyContent: "right",
           },
