@@ -124,7 +124,6 @@ export const Summary = ({
 
   return (
     <Box sx={{ margin: "0 auto", width: gridWidth }}>
-      {" "}
       <Typography
         align="center"
         variant="subtitle1"

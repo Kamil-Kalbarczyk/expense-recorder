@@ -8,17 +8,16 @@ import SettingsIcon from "@mui/icons-material/Settings";
 const Toolbar = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin: 0 auto 10px;
+  width: 900px;
 `;
 
 export const RecorderHeader = ({ project_name }) => {
   return (
     <Toolbar>
-      <Typography variant="h6" sx={{ ml: 2, flexGrow: 1 }}>
-        Recorder {project_name}
-      </Typography>
+      <Typography variant="h6">Recorder {project_name}</Typography>
       <Stack direction="row" spacing={2}>
         {/* <Button color="error" variant="" startIcon={<DeleteIcon />}>
           Delete
