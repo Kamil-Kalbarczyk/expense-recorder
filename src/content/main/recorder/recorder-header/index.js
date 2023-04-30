@@ -1,4 +1,4 @@
-import { Options } from "./options";
+import { RecorderSettings } from "./recorder-settings";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
@@ -19,15 +19,7 @@ export const RecorderHeader = ({ project_name }) => {
   return (
     <Toolbar>
       <Typography variant="h6">Recorder {project_name}</Typography>
-      <Stack direction="row" spacing={2}>
-        {/* <Button color="error" variant="" startIcon={<DeleteIcon />}>
-          Delete
-        </Button> */}
-        <Button variant="outlined" startIcon={<SettingsIcon />}>
-          Options
-        </Button>
-        <Options />
-      </Stack>
+      <RecorderSettings />
     </Toolbar>
   );
 };

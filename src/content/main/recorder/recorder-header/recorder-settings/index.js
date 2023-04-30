@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -6,13 +7,15 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const Options = () => {
-  const [open, setOpen] = React.useState(false);
+export const RecorderSettings = () => {
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,8 +27,12 @@ export const Options = () => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Slide in alert dialog
+      <Button
+        variant="outlined"
+        startIcon={<SettingsIcon />}
+        onClick={handleClickOpen}
+      >
+        Settings
       </Button>
       <Dialog
         open={open}
