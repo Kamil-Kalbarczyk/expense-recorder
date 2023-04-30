@@ -1,3 +1,4 @@
+import { Options } from "./options";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
@@ -25,6 +26,7 @@ export const RecorderHeader = ({ project_name }) => {
         <Button variant="outlined" startIcon={<SettingsIcon />}>
           Options
         </Button>
+        <Options />
       </Stack>
     </Toolbar>
   );
