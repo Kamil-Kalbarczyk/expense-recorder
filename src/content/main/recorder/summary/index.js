@@ -124,8 +124,13 @@ export const Summary = ({
 
   return (
     <Box sx={{ margin: "0 auto", width: gridWidth }}>
-      <Typography variant="subtitle1" sx={{ mb: 1, ml: 2 }}>
-        Expense summary
+      {" "}
+      <Typography
+        align="center"
+        variant="subtitle1"
+        sx={{ mb: 1, ml: 2, fontWeight: "bold" }}
+      >
+        Summary
       </Typography>
       <DataGrid
         sx={{

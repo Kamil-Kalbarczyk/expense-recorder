@@ -120,18 +120,6 @@ export const Recorder = () => {
     return (
       <div>
         <RecorderHeader project_name={currentProject.project_name} />
-        <RecorderGrid
-          dataGrid={dataGrid}
-          setDataGrid={setDataGrid}
-          columnsGrid={columnsGrid}
-          setColumnsGrid={setColumnsGrid}
-          loading={loading}
-          setLoading={setLoading}
-          projectID={projectID}
-          userID={userID}
-          getDataGridFromFirestore={getDataGridFromFirestore}
-        />
-        <Divider variant="inset" sx={{ m: 3 }} />
         <Summary
           dataGrid={dataGrid}
           setDataGrid={setDataGrid}
@@ -143,6 +131,19 @@ export const Recorder = () => {
           userID={userID}
           // getDataGridFromFirestore={getDataGridFromFirestore}
           currentProject={currentProject}
+        />
+        <Divider variant="inset" sx={{ m: 3 }} />
+
+        <RecorderGrid
+          dataGrid={dataGrid}
+          setDataGrid={setDataGrid}
+          columnsGrid={columnsGrid}
+          setColumnsGrid={setColumnsGrid}
+          loading={loading}
+          setLoading={setLoading}
+          projectID={projectID}
+          userID={userID}
+          getDataGridFromFirestore={getDataGridFromFirestore}
         />
       </div>
     );

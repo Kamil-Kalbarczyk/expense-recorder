@@ -87,10 +87,20 @@ export const RecorderGrid = ({
     <Box
       sx={{
         margin: "0 auto",
-        height: "80vh",
+        height: "90vh",
         width: gridWidth,
       }}
     >
+      <Typography
+        align="center"
+        variant="subtitle1"
+        sx={{ mb: 1, ml: 2, fontWeight: "bold" }}
+      >
+        Expenses
+      </Typography>
+      <Typography align="center" variant="subtitle2" sx={{ mb: 1, ml: 2 }}>
+        Add expenses here
+      </Typography>
       <DataGrid
         sx={{
           // height: "calc(85vh - 40px)",
@@ -106,6 +116,7 @@ export const RecorderGrid = ({
         pageSize={5}
         rowsPerPageOptions={[5]}
         // checkboxSelection
+        // autoHeight={true}
         disableSelectionOnClick
         experimentalFeatures={{ newEditingApi: true }}
         loading={loading}
