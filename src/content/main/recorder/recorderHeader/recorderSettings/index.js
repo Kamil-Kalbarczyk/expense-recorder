@@ -50,12 +50,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export const RecorderSettings = ({ project_name }) => {
   const [open, setOpen] = useState(false);
 
-  const [recordNewName, setRecordNewName] = useState(project_name);
+  const [recordNewName, setRecordNewName] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const { projectID } = useParams();
 
   const handleClickOpen = () => {
+    setRecordNewName(project_name);
     setOpen(true);
   };
 
