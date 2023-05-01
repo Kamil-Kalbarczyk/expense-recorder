@@ -19,7 +19,7 @@ export const RecorderHeader = ({ project_name }) => {
   return (
     <Toolbar>
       <Typography variant="h6">Recorder {project_name}</Typography>
-      <RecorderSettings />
+      <RecorderSettings project_name={project_name} />
     </Toolbar>
   );
 };
