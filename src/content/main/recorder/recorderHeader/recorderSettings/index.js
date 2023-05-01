@@ -1,6 +1,8 @@
 import * as React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../../../../../contexts/auth/AuthContext";
+import { ProjectsContext } from "../../../../../contexts/projects/ProjectsContext";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -50,6 +52,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export const RecorderSettings = ({ project_name }) => {
   const [open, setOpen] = useState(false);
 
+  const isAuthorization = useContext(AuthContext);
+  const userID = isAuthorization.authorization.uid;
+  const { projects, setProjects } = useContext(ProjectsContext);
+
   const [recordNewName, setRecordNewName] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
@@ -69,12 +75,12 @@ export const RecorderSettings = ({ project_name }) => {
   };
 
   const handleRecordNameChange = (e) => {
+    e.preventDefault();
     setRecordNewName(e.target.value);
   };
 
   const handleRecordNameSave = () => {
-    console.log(recordNewName);
-    changeRecorderName(projectID, recordNewName);
+    changeRecorderName(projectID, recordNewName, userID, setProjects);
     handleClose();
     setRecordNewName(project_name);
   };
@@ -97,13 +103,23 @@ export const RecorderSettings = ({ project_name }) => {
       >
         <DialogTitle>Recorder settings</DialogTitle>
         <DialogFlexContent>
-          <Form>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
             <TextField
               id="standard-basic"
               label="Recorder"
               variant="standard"
               value={recordNewName}
               onChange={handleRecordNameChange}
+              onKeyDown={(e) => {
+                if (e.keyCode === 13) {
+                  // Enter click
+                  handleRecordNameSave();
+                }
+              }}
             />
             <Button
               color="success"
