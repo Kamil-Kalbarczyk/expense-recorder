@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -14,6 +15,9 @@ import SaveIcon from "@mui/icons-material/Save";
 import TextField from "@mui/material/TextField";
 import { Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
+import { DeleteConfirm } from "./deleteConfirm";
+
+import { changeRecorderName } from "./changeRecorderName";
 
 const DialogFlexContent = styled(DialogContent)`
   display: flex;
@@ -46,12 +50,32 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export const RecorderSettings = ({ project_name }) => {
   const [open, setOpen] = useState(false);
 
+  const [recordNewName, setRecordNewName] = useState(project_name);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+
+  const { projectID } = useParams();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDeleteClick = () => {
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleRecordNameChange = (e) => {
+    setRecordNewName(e.target.value);
+  };
+
+  const handleRecordNameSave = () => {
+    console.log(recordNewName);
+    changeRecorderName(projectID, recordNewName);
+    handleClose();
+    setRecordNewName(project_name);
   };
 
   return (
@@ -77,12 +101,14 @@ export const RecorderSettings = ({ project_name }) => {
               id="standard-basic"
               label="Recorder"
               variant="standard"
-              value={project_name}
+              value={recordNewName}
+              onChange={handleRecordNameChange}
             />
             <Button
               color="success"
               variant="contained"
               startIcon={<SaveIcon />}
+              onClick={handleRecordNameSave}
             >
               Save
             </Button>
@@ -90,19 +116,22 @@ export const RecorderSettings = ({ project_name }) => {
           <Divider />
           <FlexRow>
             <Typography>Delete this recorder?</Typography>
-            <Button
-              color="error"
-              variant="contained"
-              startIcon={<DeleteIcon />}
-            >
-              Delete
-            </Button>
+            <div>
+              <Button
+                color="error"
+                variant="contained"
+                startIcon={<DeleteIcon />}
+                onClick={handleDeleteClick}
+              >
+                Delete
+              </Button>
+              <DeleteConfirm
+                open={deleteConfirmOpen}
+                setOpen={setDeleteConfirmOpen}
+              />
+            </div>
           </FlexRow>
         </DialogFlexContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose}>Agree</Button>
-        </DialogActions> */}
       </Dialog>
     </div>
   );

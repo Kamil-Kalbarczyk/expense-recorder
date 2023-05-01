@@ -1,4 +1,4 @@
-import { RecorderSettings } from "./recorder-settings";
+import { RecorderSettings } from "./recorderSettings";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";

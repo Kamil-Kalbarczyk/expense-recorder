@@ -1,4 +1,4 @@
-import { RecorderHeader } from "./recorder-header";
+import { RecorderHeader } from "./recorderHeader";
 import { RecorderGrid } from "./grid";
 import { Summary } from "./summary";
 import { useEffect, useState, useContext } from "react";
