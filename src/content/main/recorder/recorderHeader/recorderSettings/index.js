@@ -17,8 +17,8 @@ import SaveIcon from "@mui/icons-material/Save";
 import TextField from "@mui/material/TextField";
 import { Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
+import Alert from "@mui/material/Alert";
 import { DeleteConfirm } from "./deleteConfirm";
-
 import { changeRecorderName } from "./changeRecorderName";
 
 const DialogFlexContent = styled(DialogContent)`
@@ -55,18 +55,22 @@ export const RecorderSettings = ({ project_name }) => {
   const isAuthorization = useContext(AuthContext);
   const userID = isAuthorization.authorization.uid;
   const { projects, setProjects } = useContext(ProjectsContext);
+  const recorders = projects;
 
-  const [recordNewName, setRecordNewName] = useState("");
+  const [newRecorderName, setNewRecorderName] = useState("");
+  const [error, setError] = useState("");
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const { projectID } = useParams();
 
   const handleClickOpen = () => {
-    setRecordNewName(project_name);
+    setNewRecorderName(project_name);
     setOpen(true);
   };
 
   const handleClose = () => {
+    setError("");
+    setNewRecorderName(project_name);
     setOpen(false);
   };
 
@@ -76,14 +80,30 @@ export const RecorderSettings = ({ project_name }) => {
 
   const handleRecordNameChange = (e) => {
     e.preventDefault();
-    setRecordNewName(e.target.value);
+    setNewRecorderName(e.target.value);
   };
 
   const handleRecordNameSave = (e) => {
     e.preventDefault();
-    changeRecorderName(projectID, recordNewName, userID, setProjects);
-    handleClose();
-    setRecordNewName(project_name);
+
+    if (newRecorderName.length > 0) {
+      if (newRecorderName === project_name) {
+        handleClose();
+      } else {
+        let errorText = "";
+        recorders.forEach((recorder) => {
+          if (recorder.project_name === newRecorderName) {
+            errorText = "Project with this name already exists!";
+            setError(errorText);
+          }
+        });
+
+        if (errorText.length === 0) {
+          changeRecorderName(projectID, newRecorderName, userID, setProjects);
+          handleClose();
+        }
+      }
+    }
   };
 
   return (
@@ -109,10 +129,11 @@ export const RecorderSettings = ({ project_name }) => {
               id="standard-basic"
               label="Recorder"
               variant="standard"
-              value={recordNewName}
+              value={newRecorderName}
               onChange={handleRecordNameChange}
             />
             <Button
+              disabled={newRecorderName === project_name ? true : false}
               color="success"
               variant="contained"
               type="submit"
@@ -121,6 +142,13 @@ export const RecorderSettings = ({ project_name }) => {
             >
               Save
             </Button>
+            {error ? (
+              <Alert variant="filled" severity="error">
+                {error}
+              </Alert>
+            ) : (
+              <></>
+            )}
           </Form>
           <Divider />
           <FlexRow>
