@@ -165,6 +165,7 @@ export const RecorderSettings = ({ project_name }) => {
               <DeleteConfirm
                 open={deleteConfirmOpen}
                 setOpen={setDeleteConfirmOpen}
+                closeSettingsWindow={handleClose}
               />
             </div>
           </FlexRow>
