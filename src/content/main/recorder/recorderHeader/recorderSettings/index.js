@@ -79,7 +79,8 @@ export const RecorderSettings = ({ project_name }) => {
     setRecordNewName(e.target.value);
   };
 
-  const handleRecordNameSave = () => {
+  const handleRecordNameSave = (e) => {
+    e.preventDefault();
     changeRecorderName(projectID, recordNewName, userID, setProjects);
     handleClose();
     setRecordNewName(project_name);
@@ -103,29 +104,20 @@ export const RecorderSettings = ({ project_name }) => {
       >
         <DialogTitle>Recorder settings</DialogTitle>
         <DialogFlexContent>
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
+          <Form onSubmit={handleRecordNameSave}>
             <TextField
               id="standard-basic"
               label="Recorder"
               variant="standard"
               value={recordNewName}
               onChange={handleRecordNameChange}
-              onKeyDown={(e) => {
-                if (e.keyCode === 13) {
-                  // Enter click
-                  handleRecordNameSave();
-                }
-              }}
             />
             <Button
               color="success"
               variant="contained"
+              type="submit"
               startIcon={<SaveIcon />}
-              onClick={handleRecordNameSave}
+              // onClick={handleRecordNameSave}
             >
               Save
             </Button>
