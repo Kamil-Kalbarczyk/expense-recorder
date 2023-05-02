@@ -85,12 +85,13 @@ export const Summary = ({
     if (row.column === "id") {
       return { column: row.column, value: "Total", percent: "Percent" };
     } else {
-      let percent = Math.round((row.value / totalExpenses) * 10000) / 10000;
-
-      percent = (percent * 100).toString();
-      percent = percent.slice(0, percent.indexOf(".") + 3);
-      percent = percent + " %";
-
+      let percent = "0 %";
+      if (row.value > 0) {
+        percent = Math.round((row.value / totalExpenses) * 10000) / 10000;
+        percent = (percent * 100).toString();
+        percent = percent.slice(0, percent.indexOf(".") + 3);
+        percent = percent + " %";
+      }
       return {
         ...row,
         percent: percent,
