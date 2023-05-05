@@ -19,6 +19,10 @@
 :boom: React-router-dom\
 :boom: Firebase
 
+# Target :dart:
+
+:exclamation: The application is of office use type and it should be use on desktop.
+
 # Author :boy:
 
 Kamil Kalbarczyk
