@@ -1,9 +1,9 @@
 # Welcome to Expense Recorder App! :moneybag:
 
-:pushpin: This app helps you keep track of your money.
-:pushpin: Create expense categories.
-:pushpin: Enter expenses.
-:pushpin: Check how much and on what you spend your money.
+:pushpin: This app helps you keep track of your money.\
+:pushpin: Create expense categories.\
+:pushpin: Enter expenses.\
+:pushpin: Check how much and on what you spend your money.\
 
 # Deployment :rocket:
 
