@@ -3,7 +3,7 @@
 :pushpin: This app helps you keep track of your money.\
 :pushpin: Create expense categories.\
 :pushpin: Enter expenses.\
-:pushpin: Check how much and on what you spend your money.\
+:pushpin: Check how much and on what you spend your money.
 
 # Deployment :rocket:
 
@@ -11,12 +11,12 @@
 
 # Stack :computer:
 
-:boom: HTML
-:boom: CSS
-:boom: React
-:boom: Material UI
-:boom: Styled Components
-:boom: React-router-dom
+:boom: HTML\
+:boom: CSS\
+:boom: React\
+:boom: Material UI\
+:boom: Styled Components\
+:boom: React-router-dom\
 :boom: Firebase
 
 # Author :boy:
